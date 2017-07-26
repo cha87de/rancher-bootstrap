@@ -1,0 +1,15 @@
+version: '3'
+services:
+    rancher-server:
+        image: rancher/server:stable
+        restart: unless-stopped
+        volumes:
+         - ./data/mysql/:/var/lib/mysql
+    rancher-sslproxy:
+        image: nginx:latest
+        restart: unless-stopped
+        ports:
+         - 8443:8443
+        volumes:
+         - ./conf/default.conf:/etc/nginx/conf.d/default.conf:ro
+         - /etc/letsencrypt/archive/s5.alb-tec.de/:/etc/letsencrypt/archive/s5.alb-tec.de/ 
